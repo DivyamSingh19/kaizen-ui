@@ -7,12 +7,13 @@ interface LoginPayload {
 interface RegisterPayload{
     email:string,
     password:string,
-    username:string
+    name:string,
+    orgId:string
 }
 
 export const login = async (loginPayload: LoginPayload) => {
   try {
-    const res = await http.post(`/user/auth/login`, loginPayload);
+    const res = await http.post(`/admin/auth/login`, loginPayload);
     return res.data;
   } catch (error) {
     console.error("Error while login", error);
@@ -35,7 +36,7 @@ export const login = async (loginPayload: LoginPayload) => {
 
 export const register = async (registerPayload: RegisterPayload) => {
   try {
-    const res = await http.post(`/user/auth/register`, registerPayload,{
+    const res = await http.post(`/admin/auth/register`, registerPayload,{
         withCredentials:true
     });
     return res.data;
@@ -45,7 +46,7 @@ export const register = async (registerPayload: RegisterPayload) => {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
       const message =
-        error.response?.data?.message || error.message || "Failed to login";
+        error.response?.data?.message || error.message || "Failed to register";
 
       throw { status, message };
     }
@@ -60,7 +61,7 @@ export const register = async (registerPayload: RegisterPayload) => {
 
 export const logout = async()=>{
     try {
-        const res = await http.post("/user/auth/logout",{},{
+        const res = await http.post("/admin/auth/logout",{},{
             withCredentials:true
         })
         return res.data
@@ -68,7 +69,7 @@ export const logout = async()=>{
         console.error("Error while logout",error)
         if(axios.isAxiosError(error)){
             const status = error.response?.status;
-            const message = error.response?.data?.message || error.message || "Failed to login"
+            const message = error.response?.data?.message || error.message || "Failed to logout"
             throw {status,message}
         }
         throw{
@@ -80,7 +81,7 @@ export const logout = async()=>{
 
 export const me = async()=>{
     try {
-        const res = await http.post("/user/auth/me",{},{
+        const res = await http.post("/admin/auth/me",{},{
             withCredentials:true
         })
         return res.data
@@ -88,7 +89,7 @@ export const me = async()=>{
         console.error("Error while logout",error)
         if(axios.isAxiosError(error)){
             const status = error.response?.status;
-            const message = error.response?.data?.message || error.message || "Failed to fetch user data"
+            const message = error.response?.data?.message || error.message || "Failed to fetch admin data"
             throw {status,message}
         }
         throw{

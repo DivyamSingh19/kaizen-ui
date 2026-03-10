@@ -7,12 +7,13 @@ interface LoginPayload {
 interface RegisterPayload{
     email:string,
     password:string,
-    username:string
+    name:string,
+     
 }
 
 export const login = async (loginPayload: LoginPayload) => {
   try {
-    const res = await http.post(`/user/auth/login`, loginPayload);
+    const res = await http.post(`/organization/auth/login`, loginPayload);
     return res.data;
   } catch (error) {
     console.error("Error while login", error);
@@ -35,7 +36,7 @@ export const login = async (loginPayload: LoginPayload) => {
 
 export const register = async (registerPayload: RegisterPayload) => {
   try {
-    const res = await http.post(`/user/auth/register`, registerPayload,{
+    const res = await http.post(`/organization/auth/register`, registerPayload,{
         withCredentials:true
     });
     return res.data;
@@ -60,7 +61,7 @@ export const register = async (registerPayload: RegisterPayload) => {
 
 export const logout = async()=>{
     try {
-        const res = await http.post("/user/auth/logout",{},{
+        const res = await http.post("/organization/auth/logout",{},{
             withCredentials:true
         })
         return res.data
@@ -80,7 +81,7 @@ export const logout = async()=>{
 
 export const me = async()=>{
     try {
-        const res = await http.post("/user/auth/me",{},{
+        const res = await http.post("/organization/auth/me",{},{
             withCredentials:true
         })
         return res.data
