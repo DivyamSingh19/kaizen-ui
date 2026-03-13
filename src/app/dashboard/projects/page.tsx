@@ -30,7 +30,8 @@ export default function ProjectsPage() {
     try {
       setLoading(true);
       const data = await getAllProjects();
-      setProjects(data?.projects || data || []);
+      const list = data?.projects ?? data;
+      setProjects(Array.isArray(list) ? list : []);
     } catch (err: unknown) {
       const e = err as { message?: string };
       setError(e?.message || "Failed to load projects");

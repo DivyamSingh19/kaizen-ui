@@ -43,7 +43,8 @@ export function LoginForm({
       console.log("Login successful:", data)
 
       toast.success("Logged in successfully! 🎉")
-      login(data.user)
+      console.log("Successful login, data:", data);
+      login(data);
       
     } catch (err: any) {
       console.log(err)

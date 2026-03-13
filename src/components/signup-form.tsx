@@ -44,10 +44,10 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 
     try {
       const data = await register({ username, email, password })
-      console.log("Registration successful:", data)
+      console.log("Registration successful, data:", data);
 
       toast.success("Account created successfully! 🎉")
-      login(data.user)
+      login(data);
       
     } catch (err: any) {
       console.log(err)

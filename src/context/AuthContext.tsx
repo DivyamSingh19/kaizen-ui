@@ -42,21 +42,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
   const loadUser = useCallback(async () => {
-    const token = getCookie("user_auth_token");
-    
-    // We try to fetch the user if we see the token OR if we don't know yet (on mount)
-    // to account for HttpOnly cookies.
+    // We try to fetch the user to account for HttpOnly cookies.
     try {
       const data = await fetchMe();
       console.log("AuthContext: fetchMe response", data);
       
-      const userObj = data?.user || (data?.id ? data : data?.data?.user || null);
+      // Handle various response structures: {user: {...}}, {data: {user: {...}}}, or {...}
+      const userObj = data?.user || data?.data?.user || (data?.id ? data : null);
       
-      if (userObj) {
-        setUser(userObj);
-      } else {
-        setUser(null);
-      }
+      setUser(userObj);
     } catch (err) {
       if ((err as any)?.status !== 401) {
         console.error("AuthContext: loadUser failed", err);
@@ -81,16 +75,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!user && isProtectedRoute) {
       console.log("AuthContext: Redirecting to /login");
-      router.push("/login");
+      router.replace("/login");
     } else if (user && isAuthRoute) {
       console.log("AuthContext: Redirecting to /dashboard");
-      router.push("/dashboard");
+      router.replace("/dashboard");
     }
   }, [user, loading, pathname, router]);
 
-  const login = (userData: User) => {
-    setUser(userData);
-    router.push("/dashboard");
+  const login = (data: any) => {
+    // Extract user similarly to loadUser
+    const userObj = data?.user || data?.data?.user || (data?.id ? data : null);
+    if (userObj) {
+      setUser(userObj);
+      // Let the useEffect handle the redirection to dashboard
+    }
   };
 
   const logout = async () => {

@@ -33,7 +33,7 @@ const handleError = (error: unknown, fallbackMessage: string): never => {
 
 export const addProject = async (payload: AddProjectPayload) => {
   try {
-    const res = await http.post("/user/project/add", payload, {
+    const res = await http.post("/user/projects/add", payload, {
       withCredentials: true,
     });
     return res.data;
@@ -44,7 +44,7 @@ export const addProject = async (payload: AddProjectPayload) => {
 
 export const getAllProjects = async () => {
   try {
-    const res = await http.get("/user/project/all", {
+    const res = await http.get("/user/projects/all", {
       withCredentials: true,
     });
     return res.data;
@@ -55,7 +55,7 @@ export const getAllProjects = async () => {
 
 export const getProjectById = async (id: string) => {
   try {
-    const res = await http.get(`/user/project/${id}`, {
+    const res = await http.get(`/user/projects/${id}`, {
       withCredentials: true,
     });
     return res.data;
@@ -66,7 +66,7 @@ export const getProjectById = async (id: string) => {
 
 export const editProject = async (id: string, payload: EditProjectPayload) => {
   try {
-    const res = await http.put(`/user/project/edit/${id}`, payload, {
+    const res = await http.put(`/user/projects/edit/${id}`, payload, {
       withCredentials: true,
     });
     return res.data;
@@ -77,7 +77,7 @@ export const editProject = async (id: string, payload: EditProjectPayload) => {
 
 export const deleteProject = async (id: string) => {
   try {
-    const res = await http.delete(`/user/project/${id}`, {
+    const res = await http.delete(`/user/projects/${id}`, {
       withCredentials: true,
     });
     return res.data;
@@ -88,7 +88,7 @@ export const deleteProject = async (id: string) => {
 
 export const updateProjectStatus = async (payload: UpdateStatusPayload) => {
   try {
-    const res = await http.put("/user/project/status", payload, {
+    const res = await http.put("/user/projects/status", payload, {
       withCredentials: true,
     });
     return res.data;
