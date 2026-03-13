@@ -90,84 +90,89 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="text-zinc-100 font-mono">
-      <div className="max-w-4xl mx-auto px-6 py-6">
+      <div className="w-full px-6 py-6 font-mono">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs text-zinc-600 tracking-widest uppercase mb-10">
-          <Link href="/dashboard/projects" className="hover:text-zinc-400 transition-colors">Projects</Link>
-          <span>/</span>
-          <span className="text-zinc-400">{project.title}</span>
+        <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-10">
+          <Link href="/dashboard/projects" className="hover:text-white transition-colors">Projects</Link>
+          <span className="text-zinc-800">/</span>
+          <span className="text-zinc-400">Registry_{project._id.substring(0, 4)}</span>
         </div>
 
         {/* Header */}
-        <div className="flex items-start justify-between mb-12">
-          <div>
-            <div className="flex items-center gap-4 mb-2">
-              <h1 className="text-4xl font-bold text-white tracking-tight">{project.title}</h1>
-              <span className={`text-[10px] tracking-widest uppercase border px-2 py-0.5 ${STATUS_COLORS[project.status] || STATUS_COLORS.inactive}`}>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-4 mb-4">
+              <span className={`text-[9px] font-black tracking-[0.2em] uppercase border px-2.5 py-1 rounded-sm ${STATUS_COLORS[project.status] || STATUS_COLORS.inactive}`}>
                 {project.status}
               </span>
+              <span className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest italic">Live Interface</span>
             </div>
+            <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic leading-none mb-6">
+              {project.title}
+            </h1>
             {project.description && (
-              <p className="text-zinc-400 text-sm max-w-lg">{project.description}</p>
+              <p className="text-zinc-400 text-sm font-medium leading-relaxed max-w-xl">{project.description}</p>
             )}
           </div>
-          <div className="flex gap-2 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             <Link
               href={`/dashboard/project/${id}/edit`}
-              className="px-4 py-2 text-xs border border-zinc-700 text-zinc-400 hover:border-white hover:text-white transition-all uppercase tracking-widest"
+              className="px-6 py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all rounded-xl shadow-xl shadow-white/5"
             >
-              Edit
+              Configure
             </Link>
             <button
               onClick={handleDelete}
               disabled={deleting}
-              className="px-4 py-2 text-xs border border-zinc-800 text-zinc-600 hover:border-red-500/50 hover:text-red-400 transition-all uppercase tracking-widest disabled:opacity-30"
+              className="px-6 py-4 border border-white/[0.04] text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-red-400 hover:border-red-500/20 transition-all rounded-xl"
             >
-              {deleting ? "Deleting..." : "Delete"}
+              {deleting ? "Deleting..." : "Terminate"}
             </button>
           </div>
         </div>
 
-        {/* Metadata grid */}
-        <div className="grid grid-cols-2 gap-px mb-px border border-zinc-800">
-          <div className="bg-zinc-900 p-5 border-b border-r border-zinc-800">
-            <p className="text-[10px] text-zinc-600 uppercase tracking-widest mb-2">Contract Address</p>
-            <p className="text-sm text-zinc-200 break-all">{project.contractAddress}</p>
-          </div>
-          <div className="bg-zinc-900 p-5 border-b border-zinc-800">
-            <p className="text-[10px] text-zinc-600 uppercase tracking-widest mb-2">Project ID</p>
-            <p className="text-sm text-zinc-200 break-all">{project._id}</p>
-          </div>
-          {project.createdAt && (
-            <div className="bg-zinc-900 p-5 border-r border-zinc-800">
-              <p className="text-[10px] text-zinc-600 uppercase tracking-widest mb-2">Created</p>
-              <p className="text-sm text-zinc-200">
-                {new Date(project.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+        {/* Metadata Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {[
+            { label: "Execution Address", value: project.contractAddress, mono: true },
+            { label: "Internal Identity", value: project._id, mono: true },
+            { 
+              label: "Genesis Date", 
+              value: project.createdAt ? new Date(project.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "N/A" 
+            },
+            { 
+              label: "Last Synchronization", 
+              value: project.updatedAt ? new Date(project.updatedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "N/A" 
+            },
+          ].map((item, i) => (
+            <div key={i} className="group relative overflow-hidden bg-zinc-900/40 border border-white/[0.04] p-8 rounded-2xl hover:bg-zinc-900/60 transition-all">
+              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-4">{item.label}</p>
+              <p className={`text-sm text-zinc-300 font-medium break-all ${item.mono ? "font-mono" : ""}`}>
+                {item.value}
               </p>
             </div>
-          )}
-          {project.updatedAt && (
-            <div className="bg-zinc-900 p-5">
-              <p className="text-[10px] text-zinc-600 uppercase tracking-widest mb-2">Last Updated</p>
-              <p className="text-sm text-zinc-200">
-                {new Date(project.updatedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
-              </p>
-            </div>
-          )}
+          ))}
         </div>
 
         {/* ABI Section */}
-        <div className="mt-px border border-zinc-800 bg-zinc-900">
+        <div className="relative overflow-hidden bg-zinc-900/40 border border-white/[0.04] rounded-2xl transition-all">
           <button
             onClick={() => setAbiExpanded(!abiExpanded)}
-            className="w-full flex items-center justify-between p-5 hover:bg-zinc-800/50 transition-colors"
+            className="w-full flex items-center justify-between p-8 hover:bg-zinc-900/60 transition-all group"
           >
-            <span className="text-[10px] text-zinc-500 uppercase tracking-widest">Contract ABI</span>
-            <span className="text-zinc-600 text-sm">{abiExpanded ? "−" : "+"}</span>
+            <div className="flex items-center gap-4">
+              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600">Contract ABI Interface</span>
+              <span className="text-[9px] font-bold text-zinc-800 uppercase tracking-widest px-2 py-0.5 border border-white/[0.02] rounded">JSON_STRUCT</span>
+            </div>
+            <div className={`size-6 rounded-lg border border-white/[0.04] flex items-center justify-center text-zinc-600 group-hover:text-white transition-all ${abiExpanded ? "rotate-180" : ""}`}>
+              <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </button>
           {abiExpanded && (
-            <div className="border-t border-zinc-800 p-5">
-              <pre className="text-xs text-zinc-400 overflow-auto max-h-96 leading-relaxed">
+            <div className="border-t border-white/[0.04] p-1 bg-black/20">
+              <pre className="p-8 text-[11px] text-zinc-500 overflow-auto max-h-[600px] leading-relaxed font-mono custom-scrollbar">
                 {JSON.stringify(project.abi, null, 2)}
               </pre>
             </div>

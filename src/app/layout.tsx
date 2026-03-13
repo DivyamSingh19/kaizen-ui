@@ -25,9 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark ${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`dark h-full ${inter.variable} ${spaceGrotesk.variable}`}>
       <body
-        className={`antialiased`}
+        className={`antialiased h-full`}
       >
         <TooltipProvider>
           {/* <AuthProvider> */}

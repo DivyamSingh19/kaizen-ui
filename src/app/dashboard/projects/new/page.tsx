@@ -85,19 +85,22 @@ export default function NewProjectPage() {
 
   return (
     <div className="text-zinc-100 font-mono">
-      <div className="max-w-4xl mx-auto px-6 py-6">
+      <div className="w-full px-6 py-6 font-mono">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs text-zinc-600 tracking-widest uppercase mb-10">
-          <Link href="/dashboard/projects" className="hover:text-zinc-400 transition-colors">Projects</Link>
-          <span>/</span>
-          <span className="text-zinc-400">New</span>
+        <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-10">
+          <Link href="/dashboard/projects" className="hover:text-white transition-colors">Projects</Link>
+          <span className="text-zinc-800">/</span>
+          <span className="text-zinc-400">Creation_Interface</span>
         </div>
 
         {/* Header */}
         <div className="mb-12">
-          <p className="text-xs tracking-[0.3em] text-zinc-500 uppercase mb-3">Deploy</p>
-          <h1 className="text-4xl font-bold text-white tracking-tight">NEW PROJECT</h1>
-          <div className="mt-3 h-px w-16 bg-gradient-to-r from-white to-transparent" />
+          <p className="text-[10px] tracking-[0.4em] text-zinc-500 uppercase mb-4 leading-none font-bold italic">
+            Deployment Hub
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white uppercase leading-none italic">
+            New Project
+          </h1>
         </div>
 
         {/* API Error */}
@@ -108,94 +111,94 @@ export default function NewProjectPage() {
           </div>
         )}
 
-        <div className="space-y-0">
+        <div className="grid grid-cols-1 gap-4">
           {/* Title */}
-          <div className="border border-zinc-800 bg-zinc-900/50 p-6">
-            <label className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-3">
-              Title <span className="text-zinc-700">/ required</span>
+          <div className="group relative border border-white/[0.04] bg-zinc-900/40 focus-within:bg-zinc-900/60 focus-within:border-white/[0.1] transition-all duration-300 p-8 rounded-2xl">
+            <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-4 leading-none">
+              Project Title <span className="text-zinc-800 ml-2">/ required</span>
             </label>
             <input
               type="text"
               value={form.title}
               onChange={(e) => handleChange("title", e.target.value)}
-              placeholder="My Smart Contract Project"
-              className="w-full bg-transparent text-white placeholder-zinc-700 text-sm border-0 outline-none focus:text-white"
+              placeholder="e.g. Nexus Core Protocol"
+              className="w-full bg-transparent text-white placeholder-zinc-800 text-lg font-bold border-0 outline-none p-0 focus:ring-0"
             />
             {errors.title && (
-              <p className="mt-2 text-xs text-red-400">{errors.title}</p>
+              <p className="mt-4 text-[10px] font-black uppercase tracking-widest text-red-500/80">{errors.title}</p>
             )}
           </div>
 
           {/* Description */}
-          <div className="border border-t-0 border-zinc-800 bg-zinc-900/50 p-6">
-            <label className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-3">
-              Description <span className="text-zinc-700">/ optional</span>
+          <div className="group relative border border-white/[0.04] bg-zinc-900/40 focus-within:bg-zinc-900/60 focus-within:border-white/[0.1] transition-all duration-300 p-8 rounded-2xl">
+            <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-4 leading-none">
+              Overview <span className="text-zinc-800 ml-2">/ optional</span>
             </label>
             <textarea
               value={form.description}
               onChange={(e) => handleChange("description", e.target.value)}
-              placeholder="Brief description of this contract..."
+              placeholder="Briefly describe the purpose of this smart contract..."
               rows={3}
-              className="w-full bg-transparent text-white placeholder-zinc-700 text-sm border-0 outline-none resize-none focus:text-white"
+              className="w-full bg-transparent text-zinc-300 placeholder-zinc-800 text-sm font-medium border-0 outline-none p-0 focus:ring-0 resize-none leading-relaxed"
             />
           </div>
 
           {/* Contract Address */}
-          <div className={`border border-t-0 bg-zinc-900/50 p-6 ${errors.contractAddress ? "border-red-500/30" : "border-zinc-800"}`}>
-            <label className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-3">
-              Contract Address <span className="text-zinc-700">/ required</span>
+          <div className={`group relative border bg-zinc-900/40 focus-within:bg-zinc-900/60 transition-all duration-300 p-8 rounded-2xl ${errors.contractAddress ? "border-red-500/20" : "border-white/[0.04] focus-within:border-white/[0.1]"}`}>
+            <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-4 leading-none">
+              Mainnet Address <span className="text-zinc-800 ml-2">/ required</span>
             </label>
             <input
               type="text"
               value={form.contractAddress}
               onChange={(e) => handleChange("contractAddress", e.target.value)}
-              placeholder="0x0000000000000000000000000000000000000000"
-              className="w-full bg-transparent text-zinc-300 placeholder-zinc-700 text-sm border-0 outline-none focus:text-white font-mono"
+              placeholder="0x..."
+              className="w-full bg-transparent text-zinc-400 placeholder-zinc-800 text-sm font-mono border-0 outline-none p-0 focus:ring-0 transition-colors focus:text-white"
             />
             {errors.contractAddress && (
-              <p className="mt-2 text-xs text-red-400">{errors.contractAddress}</p>
+              <p className="mt-4 text-[10px] font-black uppercase tracking-widest text-red-500/80">{errors.contractAddress}</p>
             )}
           </div>
 
           {/* ABI */}
-          <div className={`border border-t-0 bg-zinc-900/50 p-6 ${errors.abi ? "border-red-500/30" : "border-zinc-800"}`}>
-            <div className="flex items-center justify-between mb-3">
-              <label className="block text-[10px] text-zinc-500 uppercase tracking-widest">
-                ABI <span className="text-zinc-700">/ required · JSON</span>
+          <div className={`group relative border bg-zinc-900/40 focus-within:bg-zinc-900/60 transition-all duration-300 p-8 rounded-2xl ${errors.abi ? "border-red-500/20" : "border-white/[0.04] focus-within:border-white/[0.1]"}`}>
+            <div className="flex items-center justify-between mb-4">
+              <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 leading-none">
+                ABI Interface <span className="text-zinc-800 ml-2">/ required · valid_json</span>
               </label>
               <button
                 type="button"
                 onClick={formatAbi}
-                className="text-[10px] text-zinc-600 hover:text-zinc-400 uppercase tracking-widest transition-colors"
+                className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600 hover:text-white transition-colors"
               >
-                Format
+                Auto_Format
               </button>
             </div>
             <textarea
               value={form.abi}
               onChange={(e) => handleChange("abi", e.target.value)}
-              placeholder={`[\n  {\n    "type": "function",\n    "name": "...",\n    ...\n  }\n]`}
-              rows={10}
-              className="w-full bg-zinc-950/80 text-zinc-300 placeholder-zinc-800 text-xs border border-zinc-800 p-3 outline-none resize-y focus:border-zinc-600 transition-colors font-mono"
+              placeholder={`{\n  "interface": [...]\n}`}
+              rows={8}
+              className="w-full bg-zinc-950/50 text-zinc-400 placeholder-zinc-900 text-[11px] font-mono border border-white/[0.02] p-6 rounded-xl outline-none resize-y focus:border-white/[0.08] transition-all leading-relaxed"
             />
             {errors.abi && (
-              <p className="mt-2 text-xs text-red-400">{errors.abi}</p>
+              <p className="mt-4 text-[10px] font-black uppercase tracking-widest text-red-500/80">{errors.abi}</p>
             )}
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3 mt-6">
+        <div className="flex items-center gap-4 mt-12">
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="flex-1 py-3.5 bg-white text-black text-xs uppercase tracking-[0.2em] font-bold hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 py-5 bg-white text-black text-[10px] font-black uppercase tracking-[0.34em] hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all rounded-xl shadow-2xl shadow-white/5"
           >
-            {submitting ? "Deploying..." : "Deploy Project"}
+            {submitting ? "Processing_Deployment..." : "Finalize_Registration"}
           </button>
           <Link
-            href="/projects"
-            className="px-6 py-3.5 border border-zinc-700 text-xs uppercase tracking-widest text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-all text-center"
+            href="/dashboard/projects"
+            className="px-10 py-5 border border-white/[0.04] bg-zinc-900/20 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 hover:text-white hover:border-white/[0.1] transition-all rounded-xl"
           >
             Cancel
           </Link>

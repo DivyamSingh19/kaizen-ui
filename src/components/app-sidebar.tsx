@@ -114,28 +114,45 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+    <Sidebar 
+      collapsible="none" 
+      className="w-[260px] border-r bg-sidebar/50 backdrop-blur-xl"
+      {...props}
+    >
+      <SidebarHeader className="h-14 border-b flex items-center px-6">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
+              className="hover:bg-transparent active:bg-transparent"
             >
-              <a href="#">
-                <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+              <a href="/dashboard" className="flex items-center gap-3">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+                  <CommandIcon className="size-5" />
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-bold tracking-tight text-white uppercase">Kaizen UI</span>
+                  <span className="truncate text-[10px] text-muted-foreground uppercase tracking-widest">Enterprise</span>
+                </div>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} quickCreateUrl="/dashboard/new-project" />
+      
+      <SidebarContent className="py-4 px-2 space-y-6">
+        <NavMain items={data.navMain} />
+        
+        <div className="px-4">
+          <div className="h-px bg-white/5" />
+        </div>
+
         <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        
+        <NavSecondary items={data.navSecondary} className="mt-auto pt-4 border-t border-white/5" />
       </SidebarContent>
-      <SidebarFooter>
+
+      <SidebarFooter className="border-t bg-sidebar/30 p-2">
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

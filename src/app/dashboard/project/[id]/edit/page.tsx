@@ -117,21 +117,24 @@ export default function EditProjectPage() {
 
   return (
     <div className="text-zinc-100 font-mono">
-      <div className="max-w-4xl mx-auto px-6 py-6">
+      <div className="w-full px-6 py-6 font-mono">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs text-zinc-600 tracking-widest uppercase mb-10">
-          <Link href="/dashboard/projects" className="hover:text-zinc-400 transition-colors">Projects</Link>
-          <span>/</span>
-          <Link href={`/dashboard/project/${id}`} className="hover:text-zinc-400 transition-colors">{originalTitle || id}</Link>
-          <span>/</span>
-          <span className="text-zinc-400">Edit</span>
+        <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-10">
+          <Link href="/dashboard/projects" className="hover:text-white transition-colors">Projects</Link>
+          <span className="text-zinc-800">/</span>
+          <Link href={`/dashboard/project/${id}`} className="hover:text-white transition-colors">Registry_{id.substring(0, 4)}</Link>
+          <span className="text-zinc-800">/</span>
+          <span className="text-zinc-400">Configuration_Terminal</span>
         </div>
 
         {/* Header */}
         <div className="mb-12">
-          <p className="text-xs tracking-[0.3em] text-zinc-500 uppercase mb-3">Modify</p>
-          <h1 className="text-4xl font-bold text-white tracking-tight">EDIT PROJECT</h1>
-          <div className="mt-3 h-px w-16 bg-gradient-to-r from-white to-transparent" />
+          <p className="text-[10px] tracking-[0.4em] text-zinc-500 uppercase mb-4 leading-none font-bold italic">
+            Maintenance Mode
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white uppercase leading-none italic">
+            Edit Project
+          </h1>
         </div>
 
         {apiError && (
@@ -141,80 +144,86 @@ export default function EditProjectPage() {
           </div>
         )}
 
-        <div className="space-y-0">
+        <div className="grid grid-cols-1 gap-4">
           {/* Title */}
-          <div className="border border-zinc-800 bg-zinc-900/50 p-6">
-            <label className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Title</label>
+          <div className="group relative border border-white/[0.04] bg-zinc-900/40 focus-within:bg-zinc-900/60 focus-within:border-white/[0.1] transition-all duration-300 p-8 rounded-2xl">
+            <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-4 leading-none">
+              Project Title <span className="text-zinc-800 ml-2">/ required</span>
+            </label>
             <input
               type="text"
               value={form.title}
               onChange={(e) => handleChange("title", e.target.value)}
-              className="w-full bg-transparent text-white text-sm border-0 outline-none"
+              placeholder="Project name"
+              className="w-full bg-transparent text-white placeholder-zinc-800 text-lg font-bold border-0 outline-none p-0 focus:ring-0"
             />
           </div>
 
           {/* Description */}
-          <div className="border border-t-0 border-zinc-800 bg-zinc-900/50 p-6">
-            <label className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-3">
-              Description <span className="text-zinc-700">/ optional</span>
+          <div className="group relative border border-white/[0.04] bg-zinc-900/40 focus-within:bg-zinc-900/60 focus-within:border-white/[0.1] transition-all duration-300 p-8 rounded-2xl">
+            <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-4 leading-none">
+              Overview <span className="text-zinc-800 ml-2">/ optional</span>
             </label>
             <textarea
               value={form.description}
               onChange={(e) => handleChange("description", e.target.value)}
               rows={3}
-              className="w-full bg-transparent text-white text-sm border-0 outline-none resize-none"
+              placeholder="Update project description..."
+              className="w-full bg-transparent text-zinc-300 placeholder-zinc-800 text-sm font-medium border-0 outline-none p-0 focus:ring-0 resize-none leading-relaxed"
             />
           </div>
 
           {/* Contract Address */}
-          <div className="border border-t-0 border-zinc-800 bg-zinc-900/50 p-6">
-            <label className="block text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Contract Address</label>
+          <div className="group relative border border-white/[0.04] bg-zinc-900/40 focus-within:bg-zinc-900/60 focus-within:border-white/[0.1] transition-all duration-300 p-8 rounded-2xl">
+            <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 mb-4 leading-none">
+              Deployment Address <span className="text-zinc-800 ml-2">/ constant_ref</span>
+            </label>
             <input
               type="text"
               value={form.contractAddress}
               onChange={(e) => handleChange("contractAddress", e.target.value)}
-              className="w-full bg-transparent text-zinc-300 text-sm border-0 outline-none font-mono"
+              className="w-full bg-transparent text-zinc-400 placeholder-zinc-800 text-sm font-mono border-0 outline-none p-0 focus:ring-0"
             />
           </div>
 
           {/* ABI */}
-          <div className={`border border-t-0 bg-zinc-900/50 p-6 ${errors.abi ? "border-red-500/30" : "border-zinc-800"}`}>
-            <div className="flex items-center justify-between mb-3">
-              <label className="block text-[10px] text-zinc-500 uppercase tracking-widest">
-                ABI <span className="text-zinc-700">/ JSON</span>
+          <div className={`group relative border bg-zinc-900/40 focus-within:bg-zinc-900/60 transition-all duration-300 p-8 rounded-2xl ${errors.abi ? "border-red-500/20" : "border-white/[0.04] focus-within:border-white/[0.1]"}`}>
+            <div className="flex items-center justify-between mb-4">
+              <label className="block text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600 leading-none">
+                ABI Specification <span className="text-zinc-800 ml-2">/ re-parse_json</span>
               </label>
               <button
                 type="button"
                 onClick={formatAbi}
-                className="text-[10px] text-zinc-600 hover:text-zinc-400 uppercase tracking-widest transition-colors"
+                className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600 hover:text-white transition-colors"
               >
-                Format
+                Auto_Format
               </button>
             </div>
             <textarea
               value={form.abi}
               onChange={(e) => handleChange("abi", e.target.value)}
-              rows={10}
-              className="w-full bg-zinc-950/80 text-zinc-300 text-xs border border-zinc-800 p-3 outline-none resize-y focus:border-zinc-600 transition-colors font-mono"
+              rows={8}
+              className="w-full bg-zinc-950/50 text-zinc-400 placeholder-zinc-900 text-[11px] font-mono border border-white/[0.02] p-6 rounded-xl outline-none resize-y focus:border-white/[0.08] transition-all leading-relaxed"
             />
             {errors.abi && (
-              <p className="mt-2 text-xs text-red-400">{errors.abi}</p>
+              <p className="mt-4 text-[10px] font-black uppercase tracking-widest text-red-500/80">{errors.abi}</p>
             )}
           </div>
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3 mt-6">
+        <div className="flex items-center gap-4 mt-12">
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="flex-1 py-3.5 bg-white text-black text-xs uppercase tracking-[0.2em] font-bold hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 py-5 bg-white text-black text-[10px] font-black uppercase tracking-[0.34em] hover:bg-zinc-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all rounded-xl shadow-2xl shadow-white/5"
           >
-            {submitting ? "Saving..." : "Save Changes"}
+            {submitting ? "Synchronizing_Changes..." : "Apply_Configuration"}
           </button>
           <Link
             href={`/dashboard/project/${id}`}
-            className="px-6 py-3.5 border border-zinc-700 text-xs uppercase tracking-widest text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-all text-center"
+            className="px-10 py-5 border border-white/[0.04] bg-zinc-900/20 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600 hover:text-white hover:border-white/[0.1] transition-all rounded-xl"
           >
             Cancel
           </Link>

@@ -71,35 +71,23 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 font-mono">
-      {/* Grid background */}
-      <div
-        className="fixed inset-0 opacity-[0.03] pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-        }}
-      />
-
-      <div className="relative max-w-6xl mx-auto px-6 py-12">
+    <div className="text-zinc-100 font-mono">
+      <div className="w-full px-6 py-6 font-mono">
         {/* Header */}
-        <div className="flex items-start justify-between mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <p className="text-xs tracking-[0.3em] text-zinc-500 uppercase mb-3">
-              Smart Contract Registry
+            <p className="text-[10px] tracking-[0.4em] text-zinc-500 uppercase mb-4 leading-none font-bold">
+              Registry 01
             </p>
-            <h1 className="text-5xl font-bold tracking-tight text-white">
-              PROJECTS
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white uppercase leading-none">
+              Projects
             </h1>
-            <div className="mt-3 h-px w-24 bg-linear-to-r from-white to-transparent" />
           </div>
           <Link
-            href="/projects/new"
-            className="group flex items-center gap-3 border border-zinc-700 px-5 py-3 text-sm tracking-widest uppercase hover:border-white hover:text-white transition-all duration-200 text-zinc-400"
+            href="/dashboard/projects/new"
+            className="group flex items-center justify-center gap-3 bg-white px-6 py-4 text-[10px] font-black tracking-[0.2em] uppercase hover:bg-zinc-200 transition-all duration-200 text-black shadow-lg shadow-white/5"
           >
-            <span className="text-lg leading-none">+</span>
-            New Project
+            Deploy New Project
           </Link>
         </div>
 
@@ -126,60 +114,87 @@ export default function ProjectsPage() {
             </Link>
           </div>
         ) : (
-          <div className="space-y-px">
+          <div className="grid grid-cols-1 gap-4">
             {projects.map((project, i) => (
               <div
                 key={project._id}
-                className="group border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-900 hover:border-zinc-700 transition-all duration-150 p-6"
+                className="group relative border border-white/[0.04] bg-zinc-900/40 hover:bg-zinc-900/60 hover:border-white/[0.1] transition-all duration-300 p-5 md:p-8 rounded-xl overflow-hidden"
               >
-                <div className="flex items-start justify-between gap-6">
-                  <div className="flex items-start gap-5 min-w-0">
-                    <span className="text-xs text-zinc-600 mt-1 w-6 shrink-0 tabular-nums">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                  <div className="flex items-start gap-6 min-w-0">
+                    <div className="flex flex-col items-center">
+                      <span className="text-[10px] font-black text-zinc-700 tabular-nums">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <div className="w-px h-8 bg-zinc-800 mt-2" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-4 flex-wrap mb-2">
                         <Link
-                          href={`/projects/${project._id}`}
-                          className="text-lg font-semibold text-white hover:text-zinc-300 transition-colors tracking-tight"
+                          href={`/dashboard/project/${project._id}`}
+                          className="text-xl font-bold text-white hover:text-zinc-300 transition-colors tracking-tight"
                         >
                           {project.title}
                         </Link>
-                        <span className={`text-[10px] tracking-widest uppercase border px-2 py-0.5 ${STATUS_COLORS[project.status] || STATUS_COLORS.inactive}`}>
+                        <span className={`text-[10px] font-black tracking-[0.2em] uppercase border px-2.5 py-1 rounded-sm ${STATUS_COLORS[project.status] || STATUS_COLORS.inactive}`}>
                           {project.status || "unknown"}
                         </span>
                       </div>
                       {project.description && (
-                        <p className="mt-1 text-sm text-zinc-500 truncate max-w-lg">{project.description}</p>
+                        <p className="text-sm text-zinc-400 line-clamp-2 max-w-xl mb-4 leading-relaxed font-medium">
+                          {project.description}
+                        </p>
                       )}
-                      <p className="mt-2 text-xs text-zinc-600 font-mono truncate max-w-xs">
-                        {project.contractAddress}
-                      </p>
+                      
+                      <div className="flex items-center gap-6">
+                        <div className="flex flex-col">
+                          <span className="text-[9px] uppercase tracking-[0.2em] text-zinc-600 font-bold mb-1">Contract Address</span>
+                          <span className="text-[11px] text-zinc-400 font-mono truncate max-w-[200px] md:max-w-xs block">
+                            {project.contractAddress}
+                          </span>
+                        </div>
+                        {project.createdAt && (
+                          <div className="flex flex-col border-l border-white/5 pl-6">
+                            <span className="text-[9px] uppercase tracking-[0.2em] text-zinc-600 font-bold mb-1">Created</span>
+                            <span className="text-[11px] text-zinc-400 font-sans font-medium">
+                              {new Date(project.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <select
-                      value={project.status || ""}
-                      onChange={(e) => handleStatusChange(project._id, e.target.value)}
-                      className="bg-zinc-800 border border-zinc-700 text-zinc-300 text-xs px-2 py-1.5 focus:outline-none focus:border-zinc-500 cursor-pointer"
-                    >
-                      {["active", "inactive", "pending", "deprecated"].map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
+                  <div className="flex items-center gap-3 shrink-0 self-end md:self-center">
+                    <div className="relative group/select">
+                      <select
+                        value={project.status || ""}
+                        onChange={(e) => handleStatusChange(project._id, e.target.value)}
+                        className="appearance-none bg-zinc-800 border border-white/10 text-zinc-300 text-[10px] font-bold tracking-widest uppercase px-4 py-2.5 rounded-lg focus:outline-none focus:border-white/20 cursor-pointer pr-10"
+                      >
+                        {["active", "inactive", "pending", "deprecated"].map((s) => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-500">
+                        <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                    
                     <Link
-                      href={`/projects/${project._id}/edit`}
-                      className="px-3 py-1.5 text-xs border border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white transition-colors uppercase tracking-widest"
+                      href={`/dashboard/project/${project._id}/edit`}
+                      className="px-4 py-2.5 text-[10px] font-black border border-white/10 text-zinc-400 hover:border-white hover:text-white transition-all uppercase tracking-widest rounded-lg"
                     >
                       Edit
                     </Link>
                     <button
                       onClick={() => handleDelete(project._id)}
                       disabled={deletingId === project._id}
-                      className="px-3 py-1.5 text-xs border border-zinc-800 text-zinc-600 hover:border-red-500/50 hover:text-red-400 transition-colors uppercase tracking-widest disabled:opacity-30"
+                      className="px-4 py-2.5 text-[10px] font-black border border-white/5 text-zinc-600 hover:border-red-500/30 hover:text-red-400 transition-all uppercase tracking-widest rounded-lg disabled:opacity-30"
                     >
-                      {deletingId === project._id ? "..." : "Del"}
+                      {deletingId === project._id ? "..." : "Delete"}
                     </button>
                   </div>
                 </div>
