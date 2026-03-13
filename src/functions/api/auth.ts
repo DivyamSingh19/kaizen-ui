@@ -80,7 +80,7 @@ export const logout = async()=>{
 
 export const me = async()=>{
     try {
-        const res = await http.post("/user/auth/me",{},{
+        const res = await http.post("/user/auth/me",{
             withCredentials:true
         })
         return res.data

@@ -18,8 +18,9 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { login } from "@/functions/api/auth"
+import { login as apiLogin } from "@/functions/api/auth"
 import { toast } from "sonner"
+import { useAuth } from "@/context/AuthContext"
 
 export function LoginForm({
   className,
@@ -30,6 +31,7 @@ export function LoginForm({
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -37,11 +39,11 @@ export function LoginForm({
     setIsLoading(true)
 
     try {
-      const data = await login({ email, password })
+      const data = await apiLogin({ email, password })
       console.log("Login successful:", data)
 
       toast.success("Logged in successfully! 🎉")
-      router.push("/")
+      login(data.user)
       
     } catch (err: any) {
       console.log(err)
@@ -112,11 +114,8 @@ export function LoginForm({
                 <Button type="submit" disabled={isLoading}>
                   {isLoading ? "Logging in..." : "Login"}
                 </Button>
-                <Button variant="outline" type="button">
-                  Login with Google
-                </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="/signup">Sign up</a>
+                  Don&apos;t have an account? <a href="/register">Register now</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

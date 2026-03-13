@@ -12,12 +12,14 @@ import { CirclePlusIcon, MailIcon } from "lucide-react"
 
 export function NavMain({
   items,
+  quickCreateUrl = "#",
 }: {
   items: {
     title: string
     url: string
     icon?: React.ReactNode
   }[]
+  quickCreateUrl?: string
 }) {
   return (
     <SidebarGroup>
@@ -25,12 +27,14 @@ export function NavMain({
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
+              asChild
               tooltip="Quick Create"
               className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
             >
-              <CirclePlusIcon
-              />
-              <span>Quick Create</span>
+              <a href={quickCreateUrl}>
+                <CirclePlusIcon />
+                <span>Quick Create</span>
+              </a>
             </SidebarMenuButton>
             <Button
               size="icon"

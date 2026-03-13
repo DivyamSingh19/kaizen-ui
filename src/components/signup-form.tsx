@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -17,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { register } from "@/functions/api/auth"
 import { toast } from "sonner"
+import { useAuth } from "@/context/AuthContext"
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const [username, setUsername] = useState("")
@@ -26,6 +28,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { login } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,7 +47,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       console.log("Registration successful:", data)
 
       toast.success("Account created successfully! 🎉")
-      router.push("/")
+      login(data.user)
       
     } catch (err: any) {
       console.log(err)
