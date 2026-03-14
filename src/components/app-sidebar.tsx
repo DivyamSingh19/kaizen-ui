@@ -74,6 +74,13 @@ const data = {
       icon:(
         <ShieldCheckIcon/>
       ),
+    },
+    {
+      title:"Kill switch",
+      url:"/dashboard/kill-switch",
+      icon:(
+        <ShieldCheckIcon/>
+      ),
     }
   ],
   navClouds: [],

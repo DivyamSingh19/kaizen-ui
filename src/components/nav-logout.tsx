@@ -24,7 +24,7 @@ export function NavLogout() {
       <SidebarMenuItem>
         <SidebarMenuButton
           onClick={handleLogout}
-          className="text-red-400 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200 group-data-[collapsible=icon]:justify-center"
+          className="text-red-400 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200 justify-center group-data-[collapsible=icon]:justify-center"
         >
           <LogOutIcon className="size-4 shrink-0" />
           <span className="font-semibold tracking-tight group-data-[collapsible=icon]:hidden">
