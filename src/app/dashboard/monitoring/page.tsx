@@ -11,6 +11,7 @@ interface Project {
   title: string;
   contractAddress: string;
   status: string;
+  monitoringStatus?: string;
 }
 
 export default function MonitoringPage() {
@@ -116,7 +117,7 @@ export default function MonitoringPage() {
 
               {/* Action Buttons */}
               <div className="flex items-center gap-4 mt-8">
-                {startedProjects.has(project.id) ? (
+                {project.monitoringStatus === "ACTIVE" || startedProjects.has(project.id) ? (
                   <button disabled className="flex items-center gap-2 px-6 py-2.5 text-xs font-black tracking-widest uppercase text-[#aaff00] border border-[#aaff00]/30 bg-[#aaff00]/10 rounded-xl transition-all duration-200">
                     <CheckCircle2Icon size={14} className="shrink-0" />
                     Monitoring Active

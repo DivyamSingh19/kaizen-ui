@@ -11,6 +11,7 @@ interface Project {
   contractAddress: string;
   abi: object;
   status: string;
+  monitoringStatus?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -104,7 +105,17 @@ export default function ProjectDetailPage() {
               <span className={`text-[9px] font-black tracking-[0.2em] uppercase italic border px-2.5 py-1 rounded-sm ${STATUS_COLORS[project.status] || STATUS_COLORS.inactive}`}>
                 {project.status}
               </span>
-              <span className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest italic">Live Interface</span>
+              {project.monitoringStatus === "ACTIVE" ? (
+                <span className="text-[9px] font-black tracking-[0.2em] uppercase border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-sm flex items-center gap-1.5">
+                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                  MONITORING ACTIVE
+                </span>
+              ) : (
+                <span className="text-[9px] font-black tracking-[0.2em] uppercase border border-white/5 bg-zinc-800/50 text-zinc-500 px-2.5 py-1 rounded-sm">
+                  MONITORING INACTIVE
+                </span>
+              )}
+              <span className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest italic ml-2">Live Interface</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter uppercase italic leading-none mb-6">
               {project.title}

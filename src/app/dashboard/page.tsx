@@ -19,6 +19,7 @@ interface Project {
   id: string;
   title: string;
   status: string;
+  monitoringStatus?: string;
   createdAt?: string;
 }
 
@@ -132,11 +133,21 @@ export default function DashboardOverview() {
                       <p className="text-[10px] text-zinc-500 font-mono italic">ID: {project.id.substring(0, 8)}...</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-3">
+                    {project.monitoringStatus === "ACTIVE" ? (
+                      <span className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2 py-1 border border-emerald-500/20 rounded bg-emerald-500/10 text-emerald-400">
+                        <ActivityIcon className="size-3" />
+                        ACTIVE
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2 py-1 border border-white/5 rounded bg-zinc-800/50 text-zinc-500">
+                         INACTIVE
+                      </span>
+                    )}
                     <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 border border-white/5 rounded bg-zinc-800/50 text-zinc-400">
                       {project.status}
                     </span>
-                    <ArrowUpRightIcon className="size-4 text-zinc-700 group-hover:text-white transition-colors" />
+                    <ArrowUpRightIcon className="size-4 text-zinc-700 group-hover:text-white transition-colors ml-1" />
                   </div>
                 </Link>
               ))

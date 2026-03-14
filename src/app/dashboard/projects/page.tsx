@@ -10,6 +10,7 @@ interface Project {
   description?: string;
   contractAddress: string;
   status: string;
+  monitoringStatus?: string;
   createdAt?: string;
 }
 
@@ -138,6 +139,16 @@ export default function ProjectsPage() {
                         <span className={`text-[10px] font-black tracking-[0.2em] uppercase border px-2.5 py-1 rounded-sm ${STATUS_COLORS[project.status] || STATUS_COLORS.inactive}`}>
                           {project.status || "unknown"}
                         </span>
+                        {project.monitoringStatus === "ACTIVE" ? (
+                          <span className="text-[9px] font-black tracking-[0.1em] uppercase border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded-sm flex items-center gap-1.5">
+                            <span className="size-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                            MONITORING LIVE
+                          </span>
+                        ) : (
+                          <span className="text-[9px] font-black tracking-[0.1em] uppercase border border-white/5 bg-zinc-800/50 text-zinc-500 px-2 py-1 rounded-sm">
+                            MONITORING INACTIVE
+                          </span>
+                        )}
                       </div>
                       {project.description && (
                         <p className="text-sm text-zinc-400 line-clamp-2 max-w-xl mb-4 leading-relaxed font-medium">
