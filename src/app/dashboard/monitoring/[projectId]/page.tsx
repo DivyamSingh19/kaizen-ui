@@ -92,6 +92,13 @@ export default function ProjectMonitoringPage() {
 
   useEffect(() => {
     fetchAllData();
+    
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(() => {
+      fetchAllData(true);
+    }, 30000);
+    
+    return () => clearInterval(interval);
   }, [projectId]);
 
   const chartConfig = {
@@ -321,7 +328,7 @@ export default function ProjectMonitoringPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/[0.02]">
-              {timeSeriesData.length > 0 ? timeSeriesData.slice(0, 5).map((row, i) => (
+              {timeSeriesData.length > 0 ? [...timeSeriesData].reverse().slice(0, 10).map((row, i) => (
                 <tr key={i} className="hover:bg-zinc-800/20 transition-colors">
                   <td className="px-6 py-4 text-[10px] text-zinc-400 font-mono">{row.timestamp}</td>
                   <td className="px-6 py-4 text-[10px] text-zinc-400 font-mono">
