@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { me as fetchMe, logout as apiLogout } from "@/functions/api/auth";
 
@@ -87,7 +93,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, refreshUser: loadUser }}>
+    <AuthContext.Provider
+      value={{ user, loading, login, logout, refreshUser: loadUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

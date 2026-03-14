@@ -16,7 +16,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "Kaizen",
-  description: "",
+  description: "Autonomous smart contract security and monitoring platform",
 };
 
 export default function RootLayout({
@@ -30,9 +30,9 @@ export default function RootLayout({
         className={`antialiased h-full`}
       >
         <TooltipProvider>
-          <AuthProvider>
+          
             {children}
-          </AuthProvider>
+       
           <Toaster position="top-right" />
         </TooltipProvider>
       </body>
