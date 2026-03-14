@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
-import { ActivityIcon, SearchIcon, FolderIcon, ZapIcon, CheckCircle2Icon, Loader2Icon } from "lucide-react"
+import { ActivityIcon, SearchIcon, FolderIcon, ZapIcon, Loader2Icon, PauseIcon } from "lucide-react"
 import { getAllProjects } from "@/functions/api/projects"
-import { startMonitoring } from "@/functions/api/monitoring"
+import { startMonitoring, pauseMonitoring } from "@/functions/api/monitoring"
 
 interface Project {
   id: string;
@@ -18,7 +18,9 @@ export default function MonitoringPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [startingProjectId, setStartingProjectId] = useState<string | null>(null);
+  const [pausingProjectId, setPausingProjectId] = useState<string | null>(null);
   const [startedProjects, setStartedProjects] = useState<Set<string>>(new Set());
+  const [pausedProjects, setPausedProjects] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -41,11 +43,34 @@ export default function MonitoringPage() {
     try {
       await startMonitoring({ projectId });
       setStartedProjects(prev => new Set(prev).add(projectId));
+      setPausedProjects(prev => {
+        const next = new Set(prev);
+        next.delete(projectId);
+        return next;
+      });
     } catch (error) {
       console.error("Failed to start monitoring:", error);
       alert("Failed to start monitoring. Please try again.");
     } finally {
       setStartingProjectId(null);
+    }
+  };
+
+  const handlePauseMonitoring = async (projectId: string) => {
+    setPausingProjectId(projectId);
+    try {
+      await pauseMonitoring({ projectId });
+      setPausedProjects(prev => new Set(prev).add(projectId));
+      setStartedProjects(prev => {
+        const next = new Set(prev);
+        next.delete(projectId);
+        return next;
+      });
+    } catch (error) {
+      console.error("Failed to pause monitoring:", error);
+      alert("Failed to pause monitoring. Please try again.");
+    } finally {
+      setPausingProjectId(null);
     }
   };
 
@@ -116,11 +141,19 @@ export default function MonitoringPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-4 mt-8">
-                {project.monitoringStatus === "ACTIVE" || startedProjects.has(project.id) ? (
-                  <button disabled className="flex items-center gap-2 px-6 py-2.5 text-xs font-black tracking-widest uppercase text-[#aaff00] border border-[#aaff00]/30 bg-[#aaff00]/10 rounded-xl transition-all duration-200">
-                    <CheckCircle2Icon size={14} className="shrink-0" />
-                    Monitoring Active
+              <div className="flex flex-wrap items-center gap-4 mt-8">
+                {(project.monitoringStatus === "ACTIVE" || startedProjects.has(project.id)) && !pausedProjects.has(project.id) ? (
+                  <button 
+                    onClick={() => handlePauseMonitoring(project.id)}
+                    disabled={pausingProjectId === project.id}
+                    className="flex items-center gap-2 px-6 py-2.5 text-xs font-black tracking-widest uppercase text-red-400 hover:text-white border border-red-500/30 hover:border-red-500 bg-red-500/10 hover:bg-red-500/20 disabled:opacity-50 disabled:hover:bg-red-500/10 disabled:hover:text-red-400 disabled:hover:border-red-500/30 rounded-xl transition-all duration-200"
+                  >
+                    {pausingProjectId === project.id ? (
+                      <Loader2Icon size={14} className="shrink-0 animate-spin" />
+                    ) : (
+                      <PauseIcon size={14} className="shrink-0" />
+                    )}
+                    {pausingProjectId === project.id ? "Pausing..." : "Pause"}
                   </button>
                 ) : (
                   <button 

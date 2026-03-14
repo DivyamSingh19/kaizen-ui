@@ -2,6 +2,7 @@ import Navbar from '@/components/core/navbar'
 import SignInButton from '@/components/buttons/secondary'
 import React from 'react'
 import HowItWorks from '@/components/core/how-it-works'
+import Footer from '@/components/core/footer'
 
 const page = () => {
   return (
@@ -21,6 +22,9 @@ const page = () => {
       </main>
       <section id="how-it-works">
         <HowItWorks/>
+      </section>
+      <section id='footer'>
+        <Footer/>
       </section>
     </div>
   )
