@@ -10,12 +10,14 @@ import {
   TimerIcon
 } from "lucide-react"
 import { getAllProjects } from "@/functions/api/projects"
+import { getIsLocked } from "@/functions/api/timelock"
 
 interface Project {
   id: string;
   title: string;
   contractAddress: string;
   status: string;
+  isLocked?: boolean;
 }
 
 export default function TimelockProjectsPage() {
@@ -27,8 +29,19 @@ export default function TimelockProjectsPage() {
     const fetchProjects = async () => {
       try {
         const data = await getAllProjects();
-        const list = data?.projects ?? data;
-        setProjects(Array.isArray(list) ? list : []);
+        const list = Array.isArray(data?.projects ?? data) ? (data?.projects ?? data) : [];
+        
+        // Fetch lock status for each contract
+        const upgradedList = await Promise.all(list.map(async (p: any) => {
+          try {
+            const isLocked = await getIsLocked(p.contractAddress);
+            return { ...p, isLocked };
+          } catch {
+            return p;
+          }
+        }));
+        
+        setProjects(upgradedList);
       } catch (err) {
         console.error("Failed to load projects", err);
       } finally {
@@ -93,8 +106,8 @@ export default function TimelockProjectsPage() {
                     <ShieldCheckIcon size={20} />
                   </div>
                   <div className="flex items-center gap-2">
-                     <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">v1.2</span>
-                     <div className="size-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(170,255,0,0.5)]" />
+                     <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">{project.isLocked ? "LOCKED" : "OPERATIVE"}</span>
+                     <div className={`size-1.5 rounded-full ${project.isLocked ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" : "bg-primary shadow-[0_0_8px_rgba(170,255,0,0.5)]"}`} />
                   </div>
                 </div>
 
