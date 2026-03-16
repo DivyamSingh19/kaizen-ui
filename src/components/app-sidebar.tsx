@@ -61,11 +61,6 @@ const data = {
       icon: <Settings2Icon />,
     },
     {
-      title: "Attacks",
-      url: "/dashboard/attacks",
-      icon: <Crosshair />,
-    },
-    {
       title: "Timelock",
       url: "/dashboard/timelock",
       icon: <ShieldCheckIcon />,

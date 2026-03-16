@@ -1,14 +1,14 @@
 import http from "@/functions/http";
 import axios from "axios";
- 
+
 export interface TriggerTimelockPayload {
   target: string;
-  callData: string;
+  functionSignature: string;
+  args?: unknown[];
 }
 
 export interface ManualUnlockPayload {
   target: string;
-  callData: string;
 }
 
 export interface SetLockDurationPayload {

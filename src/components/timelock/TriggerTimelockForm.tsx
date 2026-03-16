@@ -51,25 +51,25 @@ export function TriggerTimelockForm() {
             Queue a new contract action with a mandatory delay.
           </DrawerDescription>
         </DrawerHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6 py-4">
           <div className="space-y-2">
             <Label htmlFor="target" className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Target Contract Address</Label>
-            <Input 
+            <Input
               id="target"
-              placeholder="0x..." 
+              placeholder="0x..."
               value={target}
               onChange={(e) => setTarget(e.target.value)}
               className="bg-white/5 border-white/10 rounded-xl h-12 font-mono text-sm focus:ring-emerald-500/20"
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="calldata" className="text-[10px] font-black uppercase tracking-widest text-zinc-500 ml-1">Hex Call Data</Label>
             <div className="relative">
-              <textarea 
+              <textarea
                 id="calldata"
-                placeholder="0x..." 
+                placeholder="0x..."
                 value={callData}
                 onChange={(e) => setCallData(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-xl min-h-[120px] p-4 font-mono text-sm focus:ring-1 focus:ring-emerald-500/20 focus:outline-none placeholder:text-zinc-700 transition-all"
@@ -79,18 +79,18 @@ export function TriggerTimelockForm() {
               </div>
             </div>
           </div>
-          
+
           <DrawerFooter className="px-0 pt-4 flex-row gap-3">
-            <Button 
-              type="button" 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               onClick={() => setOpen(false)}
               className="flex-1 bg-white/5 border-white/5 hover:bg-white/10 text-xs font-bold uppercase tracking-widest py-6 rounded-2xl"
             >
               Cancel
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={loading}
               className="flex-1 bg-white text-black hover:bg-zinc-200 text-xs font-black uppercase tracking-widest py-6 rounded-2xl shadow-xl shadow-white/5"
             >

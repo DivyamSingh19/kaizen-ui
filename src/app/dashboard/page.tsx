@@ -183,7 +183,7 @@ export default function DashboardOverview() {
             </div>
             
             <div className="flex flex-col relative z-10">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-zinc-600 font-black mb-2 italic">0{i+1} // {stat.label}</span>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-zinc-600 font-black mb-2 italic">0{i+1} {stat.label}</span>
               <span className="text-3xl font-black text-white tracking-tighter italic">{stat.value}</span>
             </div>
             
